@@ -1,48 +1,56 @@
 const express = require('express');
 const router = express.Router();
-const uuid = require('uuid/v1');
-const employees = require('../models/employees');
+
+let Employees = require('../models/employees.mongo');
+
 
 router.get('/', (req, res) => {
-  res.json(employees);
-})
+  Employees.find()
+    .then((employees) => res.json(employees))
+    .catch(err => res.status(400).send('Error on getting employees data'))
+});
+
 
 router.post('/', (req, res) => {
   const { name, email, address, phone } = req.body;
 
-  const newEmployee = {
-    id: uuid(),
-    name: name,
-    email: email,
-    address: address,
-    phone: phone
-  };
+  const newEmployee = new Employees({
+    name,
+    email,
+    address,
+    phone
+  });
 
-  employees.push(newEmployee);
-  res.json(employees);
-})
+
+  newEmployee.save()
+    .then(() => res.json('Successfully added an employee'))
+    .catch(err => res.status(400).json({ 'msg': `Could not save data :${err}` }));
+});
+
 
 router.put('/', (req, res) => {
   const { id, name, email, address, phone } = req.body;
-  const index = employees.findIndex(employee => employee.id == id);
+  const queryId = { _id: id };
 
-  employees[index] = {
-    id,
+  const updatedEmployee = {
     name,
     email,
     address,
     phone
   }
-  console.log(employees);
-  res.json(employees);
+
+  Employees.findOneAndUpdate(queryId, updatedEmployee)
+    .then(() => res.json('Update success'))
+    .catch(err => res.status(400).json({ 'msg': `Could not update an employee data :${err}` }));
 })
 
 router.delete('/', (req, res) => {
   const id = req.body.id;
-  const index = employees.findIndex(employee => employee.id == id);
+  const queryId = { _id: id };
 
-  employees.splice(index, 1);
-  res.json(employees);
+  Employees.findOneAndDelete(queryId)
+    .then(() => res.json('Update success'))
+    .catch(err => res.status(400).json({ 'msg': `Could not delete employees data :${err}` }));
 })
 
 module.exports = router;
