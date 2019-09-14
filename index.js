@@ -1,12 +1,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+
 require('dotenv').config();
 
 const app = express();
+const PORT = process.env.PORT || 5000;
 
-app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.json());
 
 const ATLAS_URL = process.env.ATLAS_URL;
 
@@ -23,5 +25,4 @@ connection.once('open', () => {
 
 app.use('/api/employees', require('./routes/employees'));
 
-const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server started at port ${PORT}`));

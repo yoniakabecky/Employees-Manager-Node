@@ -7,7 +7,7 @@ let Employees = require('../models/employees.mongo');
 router.get('/', (req, res) => {
   Employees.find()
     .then((employees) => res.json(employees))
-    .catch(err => res.status(400).send('Error on getting employees data'))
+    .catch(err => res.status(400).send(`Error on getting employees data :${err}`))
 });
 
 
@@ -21,12 +21,10 @@ router.post('/', (req, res) => {
     phone
   });
 
-
   newEmployee.save()
     .then(() => res.json('Successfully added an employee'))
     .catch(err => res.status(400).json({ 'msg': `Could not save data :${err}` }));
 });
-
 
 router.put('/', (req, res) => {
   const { id, name, email, address, phone } = req.body;
