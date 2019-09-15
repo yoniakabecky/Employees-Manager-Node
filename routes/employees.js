@@ -5,7 +5,7 @@ let Employees = require('../models/employees.mongo');
 
 
 router.get('/', (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.setHeader('Access-Control-Allow-Origin', '*');
   Employees.find()
     .then((employees) => res.json(employees))
     .catch(err => res.status(400).send(`Error on getting employees data :${err}`))
@@ -13,7 +13,6 @@ router.get('/', (req, res) => {
 
 
 router.post('/', (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
   const { name, email, address, phone } = req.body;
 
   const newEmployee = new Employees({
@@ -29,7 +28,6 @@ router.post('/', (req, res) => {
 });
 
 router.put('/', (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
   const { id, name, email, address, phone } = req.body;
   const queryId = { _id: id };
 
@@ -46,7 +44,6 @@ router.put('/', (req, res) => {
 })
 
 router.delete('/', (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
   const id = req.body.id;
   const queryId = { _id: id };
 
