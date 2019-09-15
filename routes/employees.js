@@ -5,6 +5,7 @@ let Employees = require('../models/employees.mongo');
 
 
 router.get('/', (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
   Employees.find()
     .then((employees) => res.json(employees))
     .catch(err => res.status(400).send(`Error on getting employees data :${err}`))
