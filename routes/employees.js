@@ -4,8 +4,13 @@ const router = express.Router();
 let Employees = require('../models/employees.mongo');
 
 
+router.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  next();
+});
+
+
 router.get('/', (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
   Employees.find()
     .then((employees) => res.json(employees))
     .catch(err => res.status(400).send(`Error on getting employees data :${err}`))
