@@ -37,7 +37,6 @@ router.post('/', (req, res) => {
 
 
 router.put('/', (req, res) => {
-  console.log(req.body);
   const { id, name, email, address, phone } = req.body;
   const queryId = { _id: id };
 
