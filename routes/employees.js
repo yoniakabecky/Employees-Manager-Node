@@ -5,10 +5,10 @@ let Employees = require('../models/employees.mongo');
 
 
 router.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  // response.setHeader("Access-Control-Allow-Credentials", "true");
-  response.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
-  // response.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
   next();
 });
 
@@ -24,10 +24,10 @@ router.post('/', (req, res) => {
   const { name, email, address, phone } = req.body;
 
   const newEmployee = new Employees({
-    name,
-    email,
-    address,
-    phone
+    name: name,
+    email: email,
+    address: address,
+    phone: phone
   });
 
   newEmployee.save()
@@ -35,7 +35,9 @@ router.post('/', (req, res) => {
     .catch(err => res.status(400).json({ 'msg': `Could not save data :${err}` }));
 });
 
+
 router.put('/', (req, res) => {
+  console.log(req.body);
   const { id, name, email, address, phone } = req.body;
   const queryId = { _id: id };
 
@@ -51,12 +53,13 @@ router.put('/', (req, res) => {
     .catch(err => res.status(400).json({ 'msg': `Could not update an employee data :${err}` }));
 })
 
-router.delete('/', (req, res) => {
-  const id = req.body.id;
+
+router.delete('/:id', (req, res) => {
+  const id = req.params.id;
   const queryId = { _id: id };
 
-  Employees.findOneAndDelete(queryId)
-    .then(() => res.json('Update success'))
+  Employees.remove(queryId)
+    .then(() => res.json('Delete success'))
     .catch(err => res.status(400).json({ 'msg': `Could not delete employees data :${err}` }));
 })
 
