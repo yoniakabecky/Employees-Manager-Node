@@ -8,6 +8,7 @@ const employeesSchema = new Schema({
   email: { type: String, required: true },
   address: { type: String, required: true },
   phone: { type: String, required: true },
+  checked: { type: Boolean, required: true },
 }, {
   timestamps: true, writeConcern: { w: "majority", wtimeout: 5000 }
 })
