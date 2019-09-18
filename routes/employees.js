@@ -21,13 +21,14 @@ router.get('/', (req, res) => {
 
 
 router.post('/', (req, res) => {
-  const { name, email, address, phone } = req.body;
+  const { name, email, address, phone, checked } = req.body;
 
   const newEmployee = new Employees({
     name: name,
     email: email,
     address: address,
-    phone: phone
+    phone: phone,
+    checked: checked,
   });
 
   newEmployee.save()
@@ -37,14 +38,15 @@ router.post('/', (req, res) => {
 
 
 router.put('/', (req, res) => {
-  const { id, name, email, address, phone } = req.body;
+  const { id, name, email, address, phone, checked } = req.body;
   const queryId = { _id: id };
 
   const updatedEmployee = {
     name,
     email,
     address,
-    phone
+    phone,
+    checked,
   }
 
   Employees.findOneAndUpdate(queryId, updatedEmployee)
