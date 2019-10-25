@@ -3,8 +3,8 @@
 This is a Back-end side repository for assignment.  
   
 Front-end side repositories are  
-with Bootstrap -> https://github.com/yoniakabecky/Employees-Maneger-React-Bootstrap  
-with Material-ui -> https://github.com/yoniakabecky/Employees-Maneger-React
+with Bootstrap -> https://github.com/yoniakabecky/Employees-Manager-React-Bootstrap  
+with Material-ui -> https://github.com/yoniakabecky/Employees-Manager-React
   
   
 ## How to start
